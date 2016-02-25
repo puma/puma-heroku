@@ -6,7 +6,6 @@ Puma::Plugin.create do
 
     c.preload_app!
 
-    c.rackup      DefaultRackup
     c.port        ENV['PORT']     || 3000
     c.environment ENV['RACK_ENV'] || 'development'
 
