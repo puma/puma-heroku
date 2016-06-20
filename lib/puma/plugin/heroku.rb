@@ -12,6 +12,11 @@ Puma::Plugin.create do
     if workers_supported?
       c.workers Integer(ENV['WEB_CONCURRENCY'] || 2)
 
+      c.before_fork do
+        if defined?(::ActiveRecord) && defined?(::ActiveRecord::Base)
+          ActiveRecord::Base.connection_pool.disconnect!
+        end
+      end
       c.on_worker_boot do
         if defined?(::ActiveRecord) && defined?(::ActiveRecord::Base)
           # Worker specific setup for Rails 4.1+
