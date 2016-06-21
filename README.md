@@ -1,5 +1,9 @@
 # puma-heroku
 
+A Puma plugin with best-practices configuration and handy configuration
+variables for Heroku deployments.
+
+You can read Heroku's documentation on the topic [here](https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server). Most of the ideas there apply to all ruby apps running on Puma. Important Note: In that article, Heroku uses a different (rails-specific) environment variable for configuring threads. This plugin uses the generic `MAX_THREADS`.
 
 ## Installation
 
@@ -20,6 +24,12 @@ Or install it yourself as:
 
 ## Usage
 
+Read about how to configure puma to use this plugin here: https://github.com/puma/puma#plugins
+
+There are two variables this plugin reads from the environment which control its behavior.
+
+* `WEB_CONCURRENCY` — How many workers to run. This will be ignored on JRuby and Windows, where only 1 worker will be run.
+* `MAX_THREADS` — The number of threads to run per worker. Note that this also sets the minimum number of threads to the same value, which is a recommended approach, especially in a single-app environment such as Heroku.
 
 ## License
 
