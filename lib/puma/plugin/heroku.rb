@@ -7,7 +7,7 @@ Puma::Plugin.create do
     c.preload_app!
 
     c.port        ENV['PORT']     || 3000
-    c.environment ENV['RACK_ENV'] || 'development'
+    c.environment ENV['RACK_ENV'] || ENV['RAILS_ENV'] || 'development'
 
     if workers_supported?
       c.workers Integer(ENV['WEB_CONCURRENCY'] || 2)
