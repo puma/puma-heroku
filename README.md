@@ -1,8 +1,9 @@
-# Puma::Heroku
+# puma-heroku
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/puma/heroku`. To experiment with that code, run `bin/console` for an interactive prompt.
+A Puma plugin with best-practices configuration and handy configuration
+variables for Heroku deployments.
 
-TODO: Delete this and the text above, and describe your gem
+You can read Heroku's documentation on the topic [here](https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server). Most of the ideas there apply to all ruby apps running on Puma. Important Note: In that article, Heroku uses a different (rails-specific) environment variable for configuring threads. This plugin uses the generic `MAX_THREADS`.
 
 ## Installation
 
@@ -20,20 +21,15 @@ Or install it yourself as:
 
     $ gem install puma-heroku
 
+
 ## Usage
 
-TODO: Write usage instructions here
+Read about how to configure puma to use this plugin here: https://github.com/puma/puma#plugins
 
-## Development
+There are two variables this plugin reads from the environment which control its behavior.
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/puma/puma-heroku.
-
+* `WEB_CONCURRENCY` — How many workers to run. This will be ignored on JRuby and Windows, where only 1 worker will be run.
+* `MAX_THREADS` — The number of threads to run per worker. Note that this also sets the minimum number of threads to the same value, which is a recommended approach, especially in a single-app environment such as Heroku.
 
 ## License
 
