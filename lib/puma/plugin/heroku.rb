@@ -1,16 +1,16 @@
 Puma::Plugin.create do
   def config(c)
 
+    workers_count = Integer(ENV['WEB_CONCURRENCY'] || 1)
     threads_count = Integer(ENV['MAX_THREADS'] || 5)
     c.threads threads_count, threads_count
-
-    c.preload_app!
 
     c.port        ENV['PORT']     || 3000
     c.environment ENV['RACK_ENV'] || 'development'
 
-    if workers_supported?
-      c.workers Integer(ENV['WEB_CONCURRENCY'] || 2)
+    if workers_supported? && workers_count > 1
+      c.preload_app!
+      c.workers workers_count
 
       c.before_fork do
         if defined?(::ActiveRecord) && defined?(::ActiveRecord::Base)
