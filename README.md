@@ -20,6 +20,11 @@ And then execute:
 Or install it yourself as:
 
     $ gem install puma-heroku
+    
+Then add to your puma config.rb:
+
+    # config/puma.rb
+    plugin 'heroku'
 
 
 ## Usage
