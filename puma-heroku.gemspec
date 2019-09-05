@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{Puma integration for Heroku}
   spec.description   = %q{A Puma plugin that contains the default Heroku config}
-  spec.homepage      = "https://github.com/evanphx/puma-heroku"
+  spec.homepage      = "https://github.com/puma/puma-heroku"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
