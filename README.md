@@ -3,7 +3,7 @@
 A Puma plugin with best-practices configuration and handy configuration
 variables for Heroku deployments.
 
-You can read Heroku's documentation on the topic [here](https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server). Most of the ideas there apply to all ruby apps running on Puma. Important Note: In that article, Heroku uses a different (rails-specific) environment variable for configuring threads. This plugin uses the generic `MAX_THREADS`.
+You can read Heroku's documentation on the topic [here](https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server). Most of the ideas there apply to all ruby apps running on Puma. Important Note: In that article, Heroku uses a different (rails-specific) environment variable for configuring threads. This plugin uses the generic `MAX_THREADS`, but will use `RAILS_MAX_THREADS` if available.
 
 ## Installation
 
