@@ -11,17 +11,10 @@ Puma::Plugin.create do
       c.preload_app!
       c.workers workers_count
 
-      c.before_fork do
-        if defined?(::ActiveRecord) && defined?(::ActiveRecord::Base)
-          ActiveRecord::Base.connection_pool.disconnect!
-        end
-      end
-      c.on_worker_boot do
-        if defined?(::ActiveRecord) && defined?(::ActiveRecord::Base)
-          # Worker specific setup for Rails 4.1+
-          # See: https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#on-worker-boot
-          ActiveRecord::Base.establish_connection
-        end
+      # Not necessary in Rails 5.2+, see https://github.com/rails/rails/pull/29807
+      if defined?(::ActiveRecord) && defined?(::ActiveRecord::Base) && Gem::Version.new(Rails.version) < Gem::Version.new('5.2.0')
+        c.before_fork { ActiveRecord::Base.connection_pool.disconnect! }
+        c.on_worker_boot { ActiveRecord::Base.establish_connection }
       end
     end
   end
