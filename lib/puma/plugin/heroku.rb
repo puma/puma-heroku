@@ -1,8 +1,7 @@
 Puma::Plugin.create do
   def config(c)
-
     workers_count = Integer(ENV['WEB_CONCURRENCY'] || 1)
-    threads_count = Integer(ENV['MAX_THREADS'] || 5)
+    threads_count = Integer(ENV['RAILS_MAX_THREADS'] || ENV['MAX_THREADS'] || 5)
     c.threads threads_count, threads_count
 
     c.port        ENV['PORT']     || 3000
