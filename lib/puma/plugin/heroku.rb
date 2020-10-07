@@ -16,6 +16,10 @@ Puma::Plugin.create do
         c.before_fork { ActiveRecord::Base.connection_pool.disconnect! }
         c.on_worker_boot { ActiveRecord::Base.establish_connection }
       end
+
+      if defined?(::Sequel)
+        c.before_fork { Sequel::DATABASES.each(&:disconnect) }
+      end
     end
   end
 
