@@ -1,40 +1,20 @@
 # puma-heroku
 
-A Puma plugin with best-practices configuration and handy configuration
-variables for Heroku deployments.
+This gem is being sunset. Puma 5.0+ now configures Puma in most of the ways that this plugin did.
 
-You can read Heroku's documentation on the topic [here](https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server). Most of the ideas there apply to all ruby apps running on Puma. Important Note: In that article, Heroku uses a different (rails-specific) environment variable for configuring threads. This plugin uses the generic `MAX_THREADS`, but will use `RAILS_MAX_THREADS` if available.
+## Removing this gem from your Gemfile 
 
-## Installation
+1. Upgrade to Puma 5.0.
+2. Add `c.port ENV['PORT'] || 3000` to your Puma config file, or `-p ${PORT:-3000}` to your `puma` invocation in your Procfile.
+3. Remove this gem.
 
-Add this line to your application's Gemfile:
+## More Notes on Upgrading from 1.0
 
-```ruby
-gem 'puma-heroku'
-```
+In 1.x, this plugin set `workers` to `1` if WEB_CONCURRENCY is not set. However, this isn't optimal, as it creates a master and worker process, when instead we could just use single mode (`workers 0`) and save memory. 2.x of this plugin uses the Puma 5 default, which is `workers 0` if `WEB_CONCURRENCY` is not set.
 
-And then execute:
+If you are using Rails 4.0 or less, you will have to [add your own `on_worker_boot` block.](https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#on-worker-boot), it has been removed.
 
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install puma-heroku
-    
-Then add to your puma config.rb:
-
-    # config/puma.rb
-    plugin 'heroku'
-
-
-## Usage
-
-Read about how to configure puma to use this plugin here: https://github.com/puma/puma#plugins
-
-There are two variables this plugin reads from the environment which control its behavior.
-
-* `WEB_CONCURRENCY` — How many workers to run. This will be ignored on JRuby and Windows, where only 1 worker will be run.
-* `MAX_THREADS` — The number of threads to run per worker. Note that this also sets the minimum number of threads to the same value, which is a recommended approach, especially in a single-app environment such as Heroku. If you are using Rails, you may want to use `RAILS_MAX_THREADS` instead, which is also supported.
+As of Puma 5.0/this plugin 2.x, all this gem does is set the port to `ENV["PORT"]`. In Puma 6.0, Puma will listen to `ENV["PORT"]` by default, and this plugin will receive no further updates (because all of its changes will be merged into the Puma default config).
 
 ## License
 
