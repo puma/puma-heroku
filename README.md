@@ -5,7 +5,7 @@ This gem is being sunset. Puma 5.0+ now configures Puma in most of the ways that
 ## Removing this gem from your Gemfile 
 
 1. Upgrade to Puma 5.0.
-2. Add `c.port ENV['PORT'] || 3000` to your Puma config file, or `-p ${PORT:-3000}` to your `puma` invocation in your Procfile.
+2. Add `port ENV['PORT'] || 3000` to your Puma config file, or `-p ${PORT:-3000}` to your `puma` invocation in your Procfile.
 3. Remove this gem.
 
 ## More Notes on Upgrading from 1.0
